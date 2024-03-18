@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using UserDataManager.EntityFramework.Context;
 using UserDataManager.EntityFramework.DTO;
 using UserDataManager.EntityFramework.Models;
+using UserDataManager.Repository.Class;
+using UserDataManager.Repository.Interface;
 using UserDataManager.Services;
 using UserDataManager.Services.Interface;
 
@@ -25,10 +27,11 @@ namespace UserDataManager
                  n =>
                  n.BaseAddress = new Uri(builder.Configuration["UrlUserData"])
                  );
-            builder.Services.AddScoped<IDataInsertServices< UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AdressDataInsertDTO>, UserDataInsertServices>();
+            builder.Services.AddScoped<IDataInsertServices<UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AddressDataInsertDTO>, UserDataInsertServices>();
             builder.Services.AddScoped<IReadDataServices<UserDataDTO>, UserDataReadServices>();
             builder.Services.AddScoped<IDataUpdateServices<UserDataDTO>, UserDataUpdateServices>();
             builder.Services.AddScoped<IDataDeleteServices, UserDataDeleteServices>();
+            builder.Services.AddScoped<IRepository<UserData.UserDataResponse, UserData.Address>, UserDataRepository>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

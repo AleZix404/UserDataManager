@@ -1,12 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections;
-using System.Text.Json;
-using UserDataManager.EntityFramework.Context;
+﻿using Microsoft.AspNetCore.Mvc;
 using UserDataManager.EntityFramework.DTO;
 using UserDataManager.EntityFramework.Models;
-using UserDataManager.Services;
 using UserDataManager.Services.Interface;
 
 namespace UserDataManager.Controllers
@@ -16,19 +10,19 @@ namespace UserDataManager.Controllers
     public class UserDataController : ControllerBase
     {
         private IUserDataClientServices _userDataClientServices;
-        private IDataInsertServices<UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AdressDataInsertDTO> _userDataInsertServices;
+        private IDataInsertServices<UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AddressDataInsertDTO> _dataInsertServices;
         private IReadDataServices<UserDataDTO> _readDataServices;
         private IDataUpdateServices<UserDataDTO> _dataUpdateServices;
         private IDataDeleteServices _dataDeleteServices;
 
-        public UserDataController( IUserDataClientServices userDataClientServices, IDataInsertServices<UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AdressDataInsertDTO> userDataCRUDServices,
+        public UserDataController( IUserDataClientServices userDataClientServices, IDataInsertServices<UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AddressDataInsertDTO> dataInsertServices,
             IReadDataServices<UserDataDTO> readDataServices,
             IDataUpdateServices<UserDataDTO> dataUpdateServices,
             IDataDeleteServices dataDeleteServices
             )
         {
             _userDataClientServices = userDataClientServices;
-            _userDataInsertServices = userDataCRUDServices;
+            _dataInsertServices = dataInsertServices;
             _readDataServices = readDataServices;
             _dataUpdateServices = dataUpdateServices;
             _dataDeleteServices = dataDeleteServices;
@@ -38,7 +32,7 @@ namespace UserDataManager.Controllers
         public async Task<ActionResult<UserData.UserDataResponse>> SetUserDataClient()
         {
             var userDataResponse = await _userDataClientServices.SetUserDataClient();
-            var userDataResult = await _userDataInsertServices.AsignDataClient(userDataResponse);
+            var userDataResult = await _dataInsertServices.AsignDataClient(userDataResponse);
 
             if (userDataResult == null)
             {
@@ -48,9 +42,9 @@ namespace UserDataManager.Controllers
             return StatusCode(201, userDataResult);
         }
         [HttpPost("InsertUserData")]
-        public async Task<ActionResult<UserData.UserDataResponse>> InsertUserData(UserDataInsertDTO UserDataInsertDTO)
+        public async Task<ActionResult> InsertUserData(UserData.UserDataResponse userData)
         {
-            var userDataResponse = await _userDataInsertServices.AddUserData(UserDataInsertDTO);
+            var userDataResponse = await _dataInsertServices.AddUserData(userData);
         
             if (userDataResponse == null)
             {
@@ -60,9 +54,9 @@ namespace UserDataManager.Controllers
             return StatusCode(201, userDataResponse);
         }
         [HttpPost("InsertAdressData")]
-        public async Task<ActionResult<UserData.Address>> InsertAdressData(AdressDataInsertDTO adressDataInsertDTO)
+        public async Task<ActionResult> InsertAdressData(UserData.Address adressDataInsertDTO)
         {
-            var adressDataResponse = await _userDataInsertServices.AddAdressData(adressDataInsertDTO);
+            var adressDataResponse = await _dataInsertServices.SetAdressData(adressDataInsertDTO);
         
             if (adressDataResponse == null)
             {

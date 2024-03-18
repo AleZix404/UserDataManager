@@ -1,66 +1,58 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Diagnostics;
-using UserDataManager.EntityFramework.Context;
+﻿using UserDataManager.EntityFramework.Context;
 using UserDataManager.EntityFramework.DTO;
 using UserDataManager.EntityFramework.Models;
+using UserDataManager.Repository.Class;
+using UserDataManager.Repository.Interface;
 using UserDataManager.Services.Interface;
 
 namespace UserDataManager.Services
 {
-    public class UserDataInsertServices : IDataInsertServices<UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AdressDataInsertDTO>
+    public class UserDataInsertServices : IDataInsertServices<UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AddressDataInsertDTO>
     {
-        private UserDataContext _userDataContext;
+        private IRepository<UserData.UserDataResponse, UserData.Address> _userDataRepository;
 
-        public UserDataInsertServices(UserDataContext userDataContext)
+        public UserDataInsertServices(IRepository<UserData.UserDataResponse, UserData.Address> userDataRepository)
         {
-            _userDataContext = userDataContext;
+            _userDataRepository = userDataRepository;
         }
 
-        public async Task<IEnumerable<UserData.UserDataResponse>> AsignDataClient(IEnumerable<UserData.UserDataResponse> userDataResponse)
+        public async Task<IEnumerable<UserDataInsertDTO>> AsignDataClient(IEnumerable<UserData.UserDataResponse> userDataResponse) 
         {
-            foreach (var userData in userDataResponse)
-            {
-                userData.Id = 0;
-                await _userDataContext.UserDataResponse.AddAsync(userData);
-                await _userDataContext.Address.AddAsync(userData.Address);
-            }
-            await _userDataContext.SaveChangesAsync();
+            var userData = await _userDataRepository.SetDataList(userDataResponse);
+            return SetInsertDataDTO(userData);
+        }
 
-            return _userDataContext.UserDataResponse;
-        }
-        public async Task<IEnumerable<UserData.UserDataResponse>> AddUserData(UserDataInsertDTO userDataInsertDTO)
+        public async Task<IEnumerable<UserDataInsertDTO>> AddUserData(UserData.UserDataResponse userData)
         {
-            var userData = new UserData.UserDataResponse
-            {
-                Name = userDataInsertDTO.Name,
-                Username = userDataInsertDTO.Username,
-                Email = userDataInsertDTO.Email,
-                IdAdress = userDataInsertDTO.IdAdress,
-                Phone = userDataInsertDTO.Phone,
-                Website = userDataInsertDTO.Website
-            };
-        
-            await _userDataContext.UserDataResponse.AddAsync(userData);
-            await _userDataContext.SaveChangesAsync();
-        
-            return _userDataContext.UserDataResponse;
+            var userDataResult = await _userDataRepository.SetUserData(userData);
+            return SetInsertDataDTO(userDataResult);
         }
-        public async Task<IEnumerable<UserData.Address>> AddAdressData(AdressDataInsertDTO AdressDataInsertDTO)
+
+        private IEnumerable<UserDataInsertDTO> SetInsertDataDTO(IEnumerable<UserData.UserDataResponse> userDataResult)
         {
-            var insertedAddress = new UserData.Address
+            return userDataResult.Select(u => new UserDataInsertDTO
             {
-                Street = AdressDataInsertDTO.Street,
-                Suite = AdressDataInsertDTO.Suite,
-                City = AdressDataInsertDTO.City,
-                Zipcode = AdressDataInsertDTO.Zipcode
-            };
-        
-            await _userDataContext.Address.AddAsync(insertedAddress);
-            await _userDataContext.SaveChangesAsync();
-        
-            return _userDataContext.Address;
+                Id = u.Id,
+                Name = u.Name,
+                Email = u.Email,
+                Website = u.Website
+            });
+        }
+
+        public async Task<IEnumerable<AddressDataInsertDTO>> SetAdressData(UserData.Address adressData)
+        {
+            var adressResult = await _userDataRepository.AddAdressData(adressData);
+
+            var insertedAddress = adressResult.Select(u => new AddressDataInsertDTO
+            {
+                IdAdress = u.IdAdress,
+                Street = u.Street,
+                Suite = u.Suite,
+                City = u.City,
+                Zipcode = u.Zipcode
+            });
+
+            return insertedAddress;
         }
     }
 }
