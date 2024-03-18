@@ -25,7 +25,10 @@ namespace UserDataManager
                  n =>
                  n.BaseAddress = new Uri(builder.Configuration["UrlUserData"])
                  );
-            builder.Services.AddScoped<IUserDataCRUDServices<UserData.UserDataResponse, UserDataDTO, UserDataInsertDTO, UserData.Address, AdressDataInsertDTO>, UserDataServices>();
+            builder.Services.AddScoped<IDataInsertServices< UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AdressDataInsertDTO>, UserDataInsertServices>();
+            builder.Services.AddScoped<IReadDataServices<UserDataDTO>, UserDataReadServices>();
+            builder.Services.AddScoped<IDataUpdateServices<UserDataDTO>, UserDataUpdateServices>();
+            builder.Services.AddScoped<IDataDeleteServices, UserDataDeleteServices>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

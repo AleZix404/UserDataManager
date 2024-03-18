@@ -16,19 +16,29 @@ namespace UserDataManager.Controllers
     public class UserDataController : ControllerBase
     {
         private IUserDataClientServices _userDataClientServices;
-        private IUserDataCRUDServices<UserData.UserDataResponse, UserDataDTO, UserDataInsertDTO, UserData.Address, AdressDataInsertDTO> _userDataCRUDServices;
+        private IDataInsertServices<UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AdressDataInsertDTO> _userDataInsertServices;
+        private IReadDataServices<UserDataDTO> _readDataServices;
+        private IDataUpdateServices<UserDataDTO> _dataUpdateServices;
+        private IDataDeleteServices _dataDeleteServices;
 
-        public UserDataController( IUserDataClientServices userDataClientServices, IUserDataCRUDServices<UserData.UserDataResponse, UserDataDTO, UserDataInsertDTO, UserData.Address, AdressDataInsertDTO> userDataCRUDServices)
+        public UserDataController( IUserDataClientServices userDataClientServices, IDataInsertServices<UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AdressDataInsertDTO> userDataCRUDServices,
+            IReadDataServices<UserDataDTO> readDataServices,
+            IDataUpdateServices<UserDataDTO> dataUpdateServices,
+            IDataDeleteServices dataDeleteServices
+            )
         {
             _userDataClientServices = userDataClientServices;
-            _userDataCRUDServices = userDataCRUDServices;
+            _userDataInsertServices = userDataCRUDServices;
+            _readDataServices = readDataServices;
+            _dataUpdateServices = dataUpdateServices;
+            _dataDeleteServices = dataDeleteServices;
         }
 
         [HttpPost("DownloadUserDataClient")]
         public async Task<ActionResult<UserData.UserDataResponse>> SetUserDataClient()
         {
             var userDataResponse = await _userDataClientServices.SetUserDataClient();
-            var userDataResult = await _userDataCRUDServices.AsignDataClient(userDataResponse);
+            var userDataResult = await _userDataInsertServices.AsignDataClient(userDataResponse);
 
             if (userDataResult == null)
             {
@@ -40,7 +50,7 @@ namespace UserDataManager.Controllers
         [HttpPost("InsertUserData")]
         public async Task<ActionResult<UserData.UserDataResponse>> InsertUserData(UserDataInsertDTO UserDataInsertDTO)
         {
-            var userDataResponse = await _userDataCRUDServices.AddUserData(UserDataInsertDTO);
+            var userDataResponse = await _userDataInsertServices.AddUserData(UserDataInsertDTO);
         
             if (userDataResponse == null)
             {
@@ -52,7 +62,7 @@ namespace UserDataManager.Controllers
         [HttpPost("InsertAdressData")]
         public async Task<ActionResult<UserData.Address>> InsertAdressData(AdressDataInsertDTO adressDataInsertDTO)
         {
-            var adressDataResponse = await _userDataCRUDServices.AddAdressData(adressDataInsertDTO);
+            var adressDataResponse = await _userDataInsertServices.AddAdressData(adressDataInsertDTO);
         
             if (adressDataResponse == null)
             {
@@ -64,7 +74,7 @@ namespace UserDataManager.Controllers
         [HttpGet("ReadAllUserDataList")]
         public async Task<ActionResult<IEnumerable<UserDataDTO>>> ReadAllUserDataList()
         {
-            var userDataReadDTO = await _userDataCRUDServices.ReadAllUserDataList();
+            var userDataReadDTO = await _readDataServices.ReadAllUserDataList();
 
             if (userDataReadDTO == null)
             {
@@ -76,7 +86,7 @@ namespace UserDataManager.Controllers
         [HttpGet("ReadUserData/{id}")]
         public async Task<ActionResult<UserDataDTO>> ReadUserDataList(int id)
         {
-            var userData = await _userDataCRUDServices.ReadUserData(id);
+            var userData = await _readDataServices.ReadUserData(id);
             if (userData == null) 
             {
                 NotFound();
@@ -87,7 +97,7 @@ namespace UserDataManager.Controllers
         [HttpPut("UpdateUserData")]
         public async Task<ActionResult<UserDataDTO>> UpdateUserData(UserDataDTO userDataReadDTO)
         {
-            var userData = await _userDataCRUDServices.UpdateUserData(userDataReadDTO);
+            var userData = await _dataUpdateServices.UpdateUserData(userDataReadDTO);
 
             if (userData == null)
             {
@@ -99,7 +109,7 @@ namespace UserDataManager.Controllers
         [HttpDelete("RemoveUserData/{id}")]
         public async Task<ActionResult> RemoveUserData(int id)
         {
-            var userData = _userDataCRUDServices.RemoveData(id);
+            var userData = _dataDeleteServices.RemoveData(id);
             if (userData == null)
             {
                 NotFound();
@@ -110,7 +120,7 @@ namespace UserDataManager.Controllers
         [HttpDelete("RemoveAdressData/{id}")]
         public async Task<ActionResult> RemoveAdressData(int id)
         {
-            var adressData = _userDataCRUDServices.RemoveOtherData(id);
+            var adressData = _dataDeleteServices.RemoveOtherData(id);
             if (adressData == null)
             {
                 NotFound();
@@ -121,7 +131,7 @@ namespace UserDataManager.Controllers
         [HttpDelete("ClearAllUserData")]
         public async Task<ActionResult> ClearAllUserDataClient()
         {
-            bool isClearData = await _userDataCRUDServices.ClearAllUserDataClient();
+            bool isClearData = await _dataDeleteServices.ClearAllUserDataClient();
             
             if (isClearData) 
             {
