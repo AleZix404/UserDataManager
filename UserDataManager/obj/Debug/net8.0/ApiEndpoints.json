@@ -1,0 +1,188 @@
+[
+  {
+    "ContainingType": "UserDataManager.Controllers.UserDataController",
+    "Method": "ClearAllUserDataClient",
+    "RelativePath": "api/UserData/ClearAllUserData",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UserDataManager.Controllers.UserDataController",
+    "Method": "SetUserDataClient",
+    "RelativePath": "api/UserData/DownloadUserDataClient",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "UserDataManager.EntityFramework.Models.UserData\u002BUserDataResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "UserDataManager.Controllers.UserDataController",
+    "Method": "InsertAdressData",
+    "RelativePath": "api/UserData/InsertAdressData",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "adressDataInsertDTO",
+        "Type": "UserDataManager.EntityFramework.DTO.AdressDataInsertDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "UserDataManager.EntityFramework.Models.UserData\u002BAddress",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "UserDataManager.Controllers.UserDataController",
+    "Method": "InsertUserData",
+    "RelativePath": "api/UserData/InsertUserData",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "UserDataInsertDTO",
+        "Type": "UserDataManager.EntityFramework.DTO.UserDataInsertDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "UserDataManager.EntityFramework.Models.UserData\u002BUserDataResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "UserDataManager.Controllers.UserDataController",
+    "Method": "ReadAllUserDataList",
+    "RelativePath": "api/UserData/ReadAllUserDataList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[UserDataManager.EntityFramework.Models.UserDataDTO, UserDataManager, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "UserDataManager.Controllers.UserDataController",
+    "Method": "ReadUserDataList",
+    "RelativePath": "api/UserData/ReadUserData/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "UserDataManager.EntityFramework.Models.UserDataDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "UserDataManager.Controllers.UserDataController",
+    "Method": "RemoveAdressData",
+    "RelativePath": "api/UserData/RemoveAdressData/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UserDataManager.Controllers.UserDataController",
+    "Method": "RemoveUserData",
+    "RelativePath": "api/UserData/RemoveUserData/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "UserDataManager.Controllers.UserDataController",
+    "Method": "UpdateUserData",
+    "RelativePath": "api/UserData/UpdateUserData",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userDataReadDTO",
+        "Type": "UserDataManager.EntityFramework.Models.UserDataDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "UserDataManager.EntityFramework.Models.UserDataDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]
