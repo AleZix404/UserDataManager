@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "UserDataManager.Controllers.UserDataController",
-    "Method": "ClearAllUserDataClient",
+    "Method": "ClearAllUserData",
     "RelativePath": "api/UserData/ClearAllUserData",
     "HttpMethod": "DELETE",
     "IsController": true,

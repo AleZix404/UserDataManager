@@ -18,11 +18,11 @@ namespace UserDataManager.Repository.Interface
 
         public Task RemoveData(int id);
         public Task RemoveOtherData(int id);
+        public void RemovedAllUserData();
+        public void RemovedAllAddressData();
 
         public bool IsExistUserData();
         public bool IsExistAddressData();
-        public void RemovedAllUserData();
-        public void RemovedAllAddressData();
         public Task SaveChange();
     }
 }

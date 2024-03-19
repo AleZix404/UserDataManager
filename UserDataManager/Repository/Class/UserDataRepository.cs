@@ -48,19 +48,13 @@ namespace UserDataManager.Repository.Class
         public async Task<IEnumerable<UserData.UserDataResponse>> ReadAllUserDataList() =>
         await _userDataContext.UserDataResponse.ToListAsync();
 
-
         public async Task<UserData.UserDataResponse> ReadUserData
         (int id) => await _userDataContext.UserDataResponse.FirstOrDefaultAsync(u => u.Id == id);
 
         public async Task<UserData.Address> ReadAddressData
-        (int id)
-        {
-            return await _userDataContext.Address.FirstOrDefaultAsync(u => u.IdAdress == id);
-        }
-        public UserData.UserDataResponse ReadUserDataInUserData(int id)
-        {
-            return _userDataContext.UserDataResponse.FirstOrDefault(x => x.IdAdress == id);
-        }
+        (int id) => await _userDataContext.Address.FirstOrDefaultAsync(u => u.IdAdress == id);
+        public UserData.UserDataResponse ReadUserDataInUserData(int id) =>
+        _userDataContext.UserDataResponse.FirstOrDefault(x => x.IdAdress == id);
         #endregion
 
         #region Update
@@ -70,7 +64,7 @@ namespace UserDataManager.Repository.Class
 
             _userDataContext.UserDataResponse.Attach(userDataResult);
             _userDataContext.UserDataResponse.Entry(userDataResult).State = EntityState.Modified;
-            await _userDataContext.SaveChangesAsync();
+            await SaveChange();
 
             return userDataResult;
         }
@@ -81,22 +75,13 @@ namespace UserDataManager.Repository.Class
         {
             var userDataResult = _userDataContext.UserDataResponse.FirstOrDefault(u => u.Id == id);
             _userDataContext.UserDataResponse.Remove(userDataResult);
-            await _userDataContext.SaveChangesAsync();
+            await SaveChange();
         }
         public async Task RemoveOtherData(int id)
         {
             var addressDataResult = _userDataContext.Address.FirstOrDefault(u => u.IdAdress == id);
             _userDataContext.Address.Remove(addressDataResult);
-            await _userDataContext.SaveChangesAsync();
-        }
-
-        public bool IsExistUserData()
-        {
-            return _userDataContext.UserDataResponse.Any();
-        }
-        public bool IsExistAddressData()
-        {
-            return _userDataContext.Address.Any();
+            await SaveChange();
         }
         public void RemovedAllUserData()
         {
@@ -108,9 +93,20 @@ namespace UserDataManager.Repository.Class
         }
         #endregion
 
+        #region Utils
+        public bool IsExistUserData()
+        {
+            return _userDataContext.UserDataResponse.Any();
+        }
+        public bool IsExistAddressData()
+        {
+            return _userDataContext.Address.Any();
+        }
         public async Task SaveChange()
         {
             await _userDataContext.SaveChangesAsync();
         }
+        #endregion
+
     }
 }

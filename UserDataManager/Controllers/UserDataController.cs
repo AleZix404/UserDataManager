@@ -11,12 +11,12 @@ namespace UserDataManager.Controllers
     {
         private IUserDataClientServices _userDataClientServices;
         private IDataInsertServices<UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AddressDataInsertDTO> _dataInsertServices;
-        private IReadDataServices<UserData.UserDataResponse> _readDataServices;
+        private IReadDataServices<UserDataDTO> _readDataServices;
         private IDataUpdateServices<UserData.UserDataResponse, UserDataDTO> _dataUpdateServices;
         private IDataDeleteServices _dataDeleteServices;
 
         public UserDataController( IUserDataClientServices userDataClientServices, IDataInsertServices<UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AddressDataInsertDTO> dataInsertServices,
-            IReadDataServices<UserData.UserDataResponse> readDataServices,
+            IReadDataServices<UserDataDTO> readDataServices,
             IDataUpdateServices<UserData.UserDataResponse, UserDataDTO> dataUpdateServices,
             IDataDeleteServices dataDeleteServices
             )
@@ -133,7 +133,7 @@ namespace UserDataManager.Controllers
             return Ok();
         }
         [HttpDelete("ClearAllUserData")]
-        public async Task<ActionResult> ClearAllUserDataClient()
+        public async Task<ActionResult> ClearAllUserData()
         {
             bool isClearData = await _dataDeleteServices.ClearAllUserDataClient();
 

@@ -9,12 +9,10 @@ namespace UserDataManager.Services
 {
     public class UserDataReadServices: IReadDataServices<UserDataDTO>
     {
-        private UserDataContext _userDataContext;
         private IRepository<UserData.UserDataResponse, UserData.Address> _userDataRepository;
 
-        public UserDataReadServices(UserDataContext userDataContext, IRepository<UserData.UserDataResponse, UserData.Address> userDataRepository)
+        public UserDataReadServices(IRepository<UserData.UserDataResponse, UserData.Address> userDataRepository)
         {
-            _userDataContext = userDataContext;
             _userDataRepository = userDataRepository;
         }
 
