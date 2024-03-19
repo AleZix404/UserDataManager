@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UserDataManager.EntityFramework.Context;
 using UserDataManager.EntityFramework.Models;
+using UserDataManager.Repository.Class;
+using UserDataManager.Repository.Interface;
 using UserDataManager.Services.Interface;
 
 namespace UserDataManager.Services
@@ -8,30 +10,34 @@ namespace UserDataManager.Services
     public class UserDataReadServices: IReadDataServices<UserDataDTO>
     {
         private UserDataContext _userDataContext;
+        private IRepository<UserData.UserDataResponse, UserData.Address> _userDataRepository;
 
-        public UserDataReadServices(UserDataContext userDataContext)
+        public UserDataReadServices(UserDataContext userDataContext, IRepository<UserData.UserDataResponse, UserData.Address> userDataRepository)
         {
             _userDataContext = userDataContext;
+            _userDataRepository = userDataRepository;
         }
 
         public async Task<IEnumerable<UserDataDTO>> ReadAllUserDataList()
         {
-            var userDataReadDTO = await _userDataContext.UserDataResponse.Select(userData => new UserDataDTO
+            var userDataResult = await _userDataRepository.ReadAllUserDataList();
+
+            var userDataDTO = userDataResult.Select(userData => new UserDataDTO
             {
                 Name = userData.Name,
                 Email = userData.Email,
                 Website = userData.Website
-            }).ToListAsync();
+            }).ToList();
 
-            return userDataReadDTO;
+            return userDataDTO;
         }
         public async Task<UserDataDTO> ReadUserData(int id)
         {
-            var userData = await _userDataContext.UserDataResponse.FirstOrDefaultAsync(u => u.Id == id);
+            var userData = await _userDataRepository.ReadUserData(id);
 
             var userDataReadDTO = new UserDataDTO
             {
-                Id = id,
+                Id = userData.Id,
                 Name = userData.Name,
                 Email = userData.Email,
                 Website = userData.Website

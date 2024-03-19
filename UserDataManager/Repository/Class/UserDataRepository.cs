@@ -1,4 +1,5 @@
-﻿using UserDataManager.EntityFramework.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using UserDataManager.EntityFramework.Context;
 using UserDataManager.EntityFramework.DTO;
 using UserDataManager.EntityFramework.Models;
 using UserDataManager.Repository.Interface;
@@ -14,6 +15,7 @@ namespace UserDataManager.Repository.Class
             _userDataContext = userDataContext;
         }
 
+        #region Create
         public async Task<IEnumerable<UserData.UserDataResponse>> SetDataList(IEnumerable<UserData.UserDataResponse> userDataResponse)
         {
             foreach (var userData in userDataResponse)
@@ -39,6 +41,76 @@ namespace UserDataManager.Repository.Class
             await _userDataContext.SaveChangesAsync();
 
             return _userDataContext.Address;
+        }
+        #endregion
+
+        #region Read
+        public async Task<IEnumerable<UserData.UserDataResponse>> ReadAllUserDataList() =>
+        await _userDataContext.UserDataResponse.ToListAsync();
+
+
+        public async Task<UserData.UserDataResponse> ReadUserData
+        (int id) => await _userDataContext.UserDataResponse.FirstOrDefaultAsync(u => u.Id == id);
+
+        public async Task<UserData.Address> ReadAddressData
+        (int id)
+        {
+            return await _userDataContext.Address.FirstOrDefaultAsync(u => u.IdAdress == id);
+        }
+        public UserData.UserDataResponse ReadUserDataInUserData(int id)
+        {
+            return _userDataContext.UserDataResponse.FirstOrDefault(x => x.IdAdress == id);
+        }
+        #endregion
+
+        #region Update
+        public async Task<UserData.UserDataResponse> UpdateUserData(UserData.UserDataResponse userData)
+        {
+            var userDataResult = await ReadUserData(userData.Id);
+
+            _userDataContext.UserDataResponse.Attach(userDataResult);
+            _userDataContext.UserDataResponse.Entry(userDataResult).State = EntityState.Modified;
+            await _userDataContext.SaveChangesAsync();
+
+            return userDataResult;
+        }
+        #endregion
+
+        #region Delete
+        public async Task RemoveData(int id)
+        {
+            var userDataResult = _userDataContext.UserDataResponse.FirstOrDefault(u => u.Id == id);
+            _userDataContext.UserDataResponse.Remove(userDataResult);
+            await _userDataContext.SaveChangesAsync();
+        }
+        public async Task RemoveOtherData(int id)
+        {
+            var addressDataResult = _userDataContext.Address.FirstOrDefault(u => u.IdAdress == id);
+            _userDataContext.Address.Remove(addressDataResult);
+            await _userDataContext.SaveChangesAsync();
+        }
+
+        public bool IsExistUserData()
+        {
+            return _userDataContext.UserDataResponse.Any();
+        }
+        public bool IsExistAddressData()
+        {
+            return _userDataContext.Address.Any();
+        }
+        public void RemovedAllUserData()
+        {
+            _userDataContext.UserDataResponse.RemoveRange(_userDataContext.UserDataResponse);
+        }
+        public void RemovedAllAddressData()
+        {
+            _userDataContext.Address.RemoveRange(_userDataContext.Address);
+        }
+        #endregion
+
+        public async Task SaveChange()
+        {
+            await _userDataContext.SaveChangesAsync();
         }
     }
 }
