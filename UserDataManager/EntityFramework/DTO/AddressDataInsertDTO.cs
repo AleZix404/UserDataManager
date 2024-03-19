@@ -1,6 +1,6 @@
 ﻿namespace UserDataManager.EntityFramework.DTO
 {
-    public class AdressDataInsertDTO
+    public class AddressDataInsertDTO
     {
         public int? IdAdress { get; set; }
         public string Street { get; set; }

@@ -1,8 +1,8 @@
 ﻿namespace UserDataManager.Services.Interface
 {
-    public interface IReadDataServices<T>
+    public interface IReadDataServices<U>
     {
-        public Task<IEnumerable<T>> ReadAllUserDataList();
-        public Task<T> ReadUserData(int id);
+        public Task<IEnumerable<U>> ReadAllUserDataList();
+        public Task<U> ReadUserData(int id);
     }
 }

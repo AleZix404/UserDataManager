@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "UserDataManager.Controllers.UserDataController",
-    "Method": "ClearAllUserDataClient",
+    "Method": "ClearAllUserData",
     "RelativePath": "api/UserData/ClearAllUserData",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -39,21 +39,11 @@
     "Parameters": [
       {
         "Name": "adressDataInsertDTO",
-        "Type": "UserDataManager.EntityFramework.DTO.AdressDataInsertDTO",
+        "Type": "UserDataManager.EntityFramework.Models.UserData\u002BAddress",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "UserDataManager.EntityFramework.Models.UserData\u002BAddress",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "UserDataManager.Controllers.UserDataController",
@@ -64,22 +54,12 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "UserDataInsertDTO",
-        "Type": "UserDataManager.EntityFramework.DTO.UserDataInsertDTO",
+        "Name": "userData",
+        "Type": "UserDataManager.EntityFramework.Models.UserData\u002BUserDataResponse",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "UserDataManager.EntityFramework.Models.UserData\u002BUserDataResponse",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "UserDataManager.Controllers.UserDataController",
@@ -168,8 +148,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userDataReadDTO",
-        "Type": "UserDataManager.EntityFramework.Models.UserDataDTO",
+        "Name": "userData",
+        "Type": "UserDataManager.EntityFramework.Models.UserData\u002BUserDataResponse",
         "IsRequired": true
       }
     ],
