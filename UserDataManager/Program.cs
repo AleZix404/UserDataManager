@@ -29,7 +29,7 @@ namespace UserDataManager
                  );
             builder.Services.AddScoped<IDataInsertServices<UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AddressDataInsertDTO>, UserDataInsertServices>();
             builder.Services.AddScoped<IReadDataServices<UserDataDTO>, UserDataReadServices>();
-            builder.Services.AddScoped<IDataUpdateServices<UserDataDTO>, UserDataUpdateServices>();
+            builder.Services.AddScoped<IDataUpdateServices<UserData.UserDataResponse, UserDataDTO>, UserDataUpdateServices>();
             builder.Services.AddScoped<IDataDeleteServices, UserDataDeleteServices>();
             builder.Services.AddScoped<IRepository<UserData.UserDataResponse, UserData.Address>, UserDataRepository>();
 

@@ -1,7 +1,9 @@
-﻿namespace UserDataManager.Services.Interface
+﻿using UserDataManager.EntityFramework.Models;
+
+namespace UserDataManager.Services.Interface
 {
-    public interface IDataUpdateServices<T>
+    public interface IDataUpdateServices<T, U>
     {
-        public Task<T> UpdateUserData(T DataUpdateDTO);
+        public Task<U> UpdateUserData(T dataUpdate);
     }
 }

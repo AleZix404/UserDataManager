@@ -1,57 +1,59 @@
 ﻿using UserDataManager.EntityFramework.Context;
+using UserDataManager.EntityFramework.Models;
+using UserDataManager.Repository.Class;
+using UserDataManager.Repository.Interface;
 using UserDataManager.Services.Interface;
 
 namespace UserDataManager.Services
 {
     public class UserDataDeleteServices: IDataDeleteServices
     {
-        private UserDataContext _userDataContext;
+        private IRepository<UserData.UserDataResponse, UserData.Address> _userDataRepository;
 
-        public UserDataDeleteServices(UserDataContext userDataContext)
+        public UserDataDeleteServices(IRepository<UserData.UserDataResponse, UserData.Address> userDataRepository)
         {
-            _userDataContext = userDataContext;
+            _userDataRepository = userDataRepository;
         }
+
         public async Task<bool> RemoveData(int id)
         {
-            var userData = _userDataContext.UserDataResponse.FirstOrDefault(x => x.Id == id);
+            var userData = await _userDataRepository.ReadUserData(id);
 
             if (userData != null)
             {
-                _userDataContext.UserDataResponse.Remove(userData);
-                await _userDataContext.SaveChangesAsync();
+                await _userDataRepository.RemoveData(userData.Id);
             }
             return Convert.ToBoolean(userData);
         }
         public async Task<bool> RemoveOtherData(int id)
         {
-            var userData = _userDataContext.UserDataResponse.FirstOrDefault(x => x.IdAdress == id);
-            var adress = _userDataContext.Address.FirstOrDefault(x => x.IdAdress == id);
+            var userData = _userDataRepository.ReadUserDataInUserData(id);
+            var adress = await _userDataRepository.ReadAddressData(id);
             bool isAdressRemoved = userData == null && adress != null;
 
             if (isAdressRemoved)
             {
-                _userDataContext.Address.Remove(adress);
-                await _userDataContext.SaveChangesAsync();
+                await _userDataRepository.RemoveOtherData(id);
             }
             return isAdressRemoved;
         }
         public async Task<bool> ClearAllUserDataClient()
         {
-            bool isUserDataRemoved = _userDataContext.UserDataResponse.Any();
-            bool isAdressDataRemoved = _userDataContext.Address.Any();
+            bool isUserDataRemoved = _userDataRepository.IsExistUserData();
+            bool isAdressDataRemoved = _userDataRepository.IsExistAddressData();
             bool isRemoveData = isUserDataRemoved || isAdressDataRemoved;
 
             if (isUserDataRemoved)
             {
-                _userDataContext.UserDataResponse.RemoveRange(_userDataContext.UserDataResponse);
+                _userDataRepository.RemovedAllUserData();
             }
             if (isAdressDataRemoved)
             {
-                _userDataContext.Address.RemoveRange(_userDataContext.Address);
+                _userDataRepository.RemovedAllAddressData();
             }
             if (isRemoveData)
             {
-                await _userDataContext.SaveChangesAsync();
+                await _userDataRepository.SaveChange();
             }
             return isRemoveData;
         }

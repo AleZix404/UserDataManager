@@ -148,8 +148,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userDataReadDTO",
-        "Type": "UserDataManager.EntityFramework.Models.UserDataDTO",
+        "Name": "userData",
+        "Type": "UserDataManager.EntityFramework.Models.UserData\u002BUserDataResponse",
         "IsRequired": true
       }
     ],

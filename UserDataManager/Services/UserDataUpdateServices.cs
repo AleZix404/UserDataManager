@@ -1,29 +1,34 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using UserDataManager.EntityFramework.Context;
 using UserDataManager.EntityFramework.Models;
+using UserDataManager.Repository.Interface;
 using UserDataManager.Services.Interface;
 
 namespace UserDataManager.Services
 {
-    public class UserDataUpdateServices : IDataUpdateServices<UserDataDTO>
+    public class UserDataUpdateServices : IDataUpdateServices<UserData.UserDataResponse, UserDataDTO>
     {
-        private UserDataContext _userDataContext;
+        IRepository<UserData.UserDataResponse, UserData.Address> _userDataRepository;
 
-        public UserDataUpdateServices(UserDataContext userDataContext)
+        public UserDataUpdateServices(IRepository<UserData.UserDataResponse, UserData.Address> userDataRepository)
         {
-            _userDataContext = userDataContext;
+            _userDataRepository = userDataRepository;
         }
 
-        public async Task<UserDataDTO> UpdateUserData(UserDataDTO userDataReadDTO)
+        public async Task<UserDataDTO> UpdateUserData(UserData.UserDataResponse userData)
         {
-            var userData = await _userDataContext.UserDataResponse.FirstOrDefaultAsync(u => u.Id == userDataReadDTO.Id);
+            var userDataResult = await _userDataRepository.UpdateUserData(userData);
 
-            userData.Name = userDataReadDTO.Name;
-            userData.Email = userDataReadDTO.Email;
-            userData.Website = userDataReadDTO.Website;
-            await _userDataContext.SaveChangesAsync();
+            var userDataDTO = new UserDataDTO 
+            {
+                Id = userDataResult.Id,
+                Name = userDataResult.Name,
+                Email = userDataResult.Email,
+                Website = userDataResult.Website
+            };
 
-            return userDataReadDTO;
+            return userDataDTO;
         }
     }
 }
