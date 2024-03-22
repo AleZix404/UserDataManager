@@ -20,7 +20,7 @@ namespace UserDataManager.Services
             _mapper = mapper;
         }
 
-        public async Task<UserDataDTO> UpdateUserData(UserDataUpdateDTO userDataUpdateDTO)
+        public async Task<UserDataDTO> UpdateData(UserDataUpdateDTO userDataUpdateDTO)
         {
             var userDataResponse = _mapper.Map<UserData.UserDataResponse>(userDataUpdateDTO);
             var userDataResult = await _userDataRepository.UpdateUserData(userDataResponse);

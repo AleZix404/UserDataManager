@@ -72,7 +72,7 @@ namespace UserDataManager.Controllers
         [HttpGet("ReadAllUserDataList")]
         public async Task<ActionResult<IEnumerable<UserDataDTO>>> ReadAllUserDataList()
         {
-            var userDataReadDTO = await _readDataServices.ReadAllUserDataList();
+            var userDataReadDTO = await _readDataServices.ReadAllData();
 
             if (userDataReadDTO == null)
             {
@@ -84,7 +84,7 @@ namespace UserDataManager.Controllers
         [HttpGet("ReadUserData/{id}")]
         public async Task<ActionResult<UserDataDTO>> ReadUserDataList(int id)
         {
-            var userData = await _readDataServices.ReadUserData(id);
+            var userData = await _readDataServices.ReadData(id);
             if (userData == null)
             {
                 NotFound();
@@ -99,7 +99,7 @@ namespace UserDataManager.Controllers
         [HttpPut("UpdateUserData")]
         public async Task<ActionResult<UserDataDTO>> UpdateUserData(UserDataUpdateDTO userData)
         {
-            var userDataResult = await _dataUpdateServices.UpdateUserData(userData);
+            var userDataResult = await _dataUpdateServices.UpdateData(userData);
 
             if (userDataResult == null)
             {

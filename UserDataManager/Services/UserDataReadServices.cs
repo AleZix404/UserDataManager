@@ -19,14 +19,14 @@ namespace UserDataManager.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<UserDataDTO>> ReadAllUserDataList()
+        public async Task<IEnumerable<UserDataDTO>> ReadAllData()
         {
             var userDataResult = await _userDataRepository.ReadAllUserDataList();
             var userDataDTO = _mapper.Map<IEnumerable<UserDataDTO>>(userDataResult);
 
             return userDataDTO;
         }
-        public async Task<UserDataDTO> ReadUserData(int id)
+        public async Task<UserDataDTO> ReadData(int id)
         {
             var userData = await _userDataRepository.ReadUserData(id);
             var userDataReadDTO = _mapper.Map<UserDataDTO>(userData);
