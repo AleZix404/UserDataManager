@@ -23,11 +23,11 @@ namespace UserDataManager.Services
             {
                 await _userDataRepository.RemoveData(userData.Id);
             }
-            return Convert.ToBoolean(userData);
+            return userData is not null;
         }
         public async Task<bool> RemoveOtherData(int id)
         {
-            var userData = _userDataRepository.ReadUserDataInUserData(id);
+            var userData = _userDataRepository.ReadAdressDataInUserData(id);
             var adress = await _userDataRepository.ReadAddressData(id);
             bool isAdressRemoved = userData == null && adress != null;
 

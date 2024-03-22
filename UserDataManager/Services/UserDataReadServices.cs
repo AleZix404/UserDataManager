@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using UserDataManager.EntityFramework.Context;
 using UserDataManager.EntityFramework.Models;
 using UserDataManager.Repository.Class;
@@ -10,36 +11,25 @@ namespace UserDataManager.Services
     public class UserDataReadServices: IReadDataServices<UserDataDTO>
     {
         private IRepository<UserData.UserDataResponse, UserData.Address> _userDataRepository;
+        private IMapper _mapper;
 
-        public UserDataReadServices(IRepository<UserData.UserDataResponse, UserData.Address> userDataRepository)
+        public UserDataReadServices(IRepository<UserData.UserDataResponse, UserData.Address> userDataRepository, IMapper mapper)
         {
             _userDataRepository = userDataRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<UserDataDTO>> ReadAllUserDataList()
         {
             var userDataResult = await _userDataRepository.ReadAllUserDataList();
-
-            var userDataDTO = userDataResult.Select(userData => new UserDataDTO
-            {
-                Name = userData.Name,
-                Email = userData.Email,
-                Website = userData.Website
-            }).ToList();
+            var userDataDTO = _mapper.Map<IEnumerable<UserDataDTO>>(userDataResult);
 
             return userDataDTO;
         }
         public async Task<UserDataDTO> ReadUserData(int id)
         {
             var userData = await _userDataRepository.ReadUserData(id);
-
-            var userDataReadDTO = new UserDataDTO
-            {
-                Id = userData.Id,
-                Name = userData.Name,
-                Email = userData.Email,
-                Website = userData.Website
-            };
+            var userDataReadDTO = _mapper.Map<UserDataDTO>(userData);
 
             return userDataReadDTO;
         }

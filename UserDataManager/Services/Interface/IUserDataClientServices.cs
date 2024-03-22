@@ -1,9 +1,10 @@
-﻿using UserDataManager.EntityFramework.Models;
+﻿using UserDataManager.EntityFramework.DTO;
+using UserDataManager.EntityFramework.Models;
 
 namespace UserDataManager.Services.Interface
 {
     public interface IUserDataClientServices
     {
-        public Task<IEnumerable<UserData.UserDataResponse>> SetUserDataClient();
+        public Task<IEnumerable<UserDataInsertDTO>> SetUserDataClient();
     }
 }

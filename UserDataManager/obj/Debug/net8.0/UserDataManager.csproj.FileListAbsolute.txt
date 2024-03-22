@@ -157,3 +157,5 @@ C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\obj\Debug\net8.0
 C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\obj\Debug\net8.0\UserDataManager.genruntimeconfig.cache
 C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\obj\Debug\net8.0\ref\UserDataManager.dll
 C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\obj\Debug\net8.0\UserDataManager.sourcelink.json
+C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\bin\Debug\net8.0\AutoMapper.dll
+C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

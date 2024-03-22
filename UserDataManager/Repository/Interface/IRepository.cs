@@ -12,7 +12,7 @@ namespace UserDataManager.Repository.Interface
         public Task<IEnumerable<TEntity>> ReadAllUserDataList();
         public Task<TEntity> ReadUserData(int id);
         public Task<UEntity> ReadAddressData(int id);
-        public TEntity ReadUserDataInUserData(int id);
+        public TEntity ReadAdressDataInUserData(int id);
 
         public Task<TEntity> UpdateUserData(TEntity userDataReadDTO);
 

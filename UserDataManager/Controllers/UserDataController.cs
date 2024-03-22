@@ -10,14 +10,14 @@ namespace UserDataManager.Controllers
     public class UserDataController : ControllerBase
     {
         private IUserDataClientServices _userDataClientServices;
-        private IDataInsertServices<UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AddressDataInsertDTO> _dataInsertServices;
+        private IDataInsertServices<UserDataDTO, UserDataInsertDTO, AddressDTO, AddressDataInsertDTO> _dataInsertServices;
         private IReadDataServices<UserDataDTO> _readDataServices;
-        private IDataUpdateServices<UserData.UserDataResponse, UserDataDTO> _dataUpdateServices;
+        private IDataUpdateServices<UserDataUpdateDTO, UserDataDTO> _dataUpdateServices;
         private IDataDeleteServices _dataDeleteServices;
 
-        public UserDataController( IUserDataClientServices userDataClientServices, IDataInsertServices<UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AddressDataInsertDTO> dataInsertServices,
+        public UserDataController( IUserDataClientServices userDataClientServices, IDataInsertServices<UserDataDTO, UserDataInsertDTO, AddressDTO, AddressDataInsertDTO> dataInsertServices,
             IReadDataServices<UserDataDTO> readDataServices,
-            IDataUpdateServices<UserData.UserDataResponse, UserDataDTO> dataUpdateServices,
+            IDataUpdateServices<UserDataUpdateDTO, UserDataDTO> dataUpdateServices,
             IDataDeleteServices dataDeleteServices
             )
         {
@@ -43,7 +43,7 @@ namespace UserDataManager.Controllers
             return StatusCode(201, userDataResult);
         }
         [HttpPost("InsertUserData")]
-        public async Task<ActionResult> InsertUserData(UserData.UserDataResponse userData)
+        public async Task<ActionResult> InsertUserData(UserDataInsertDTO userData)
         {
             var userDataResponse = await _dataInsertServices.AddUserData(userData);
 
@@ -55,7 +55,7 @@ namespace UserDataManager.Controllers
             return StatusCode(201, userDataResponse);
         }
         [HttpPost("InsertAdressData")]
-        public async Task<ActionResult> InsertAdressData(UserData.Address adressDataInsertDTO)
+        public async Task<ActionResult> InsertAdressData(AddressDataInsertDTO adressDataInsertDTO)
         {
             var adressDataResponse = await _dataInsertServices.SetAdressData(adressDataInsertDTO);
 
@@ -92,17 +92,18 @@ namespace UserDataManager.Controllers
 
             return Ok(userData);
         }
+        //Read Adress
         #endregion
 
         #region Update
         [HttpPut("UpdateUserData")]
-        public async Task<ActionResult<UserDataDTO>> UpdateUserData(UserData.UserDataResponse userData)
+        public async Task<ActionResult<UserDataDTO>> UpdateUserData(UserDataUpdateDTO userData)
         {
             var userDataResult = await _dataUpdateServices.UpdateUserData(userData);
 
             if (userDataResult == null)
             {
-                NotFound();
+                return NotFound();
             }
 
             return Ok(userDataResult);
@@ -113,8 +114,8 @@ namespace UserDataManager.Controllers
         [HttpDelete("RemoveUserData/{id}")]
         public async Task<ActionResult> RemoveUserData(int id)
         {
-            var userData = _dataDeleteServices.RemoveData(id);
-            if (userData == null)
+            var userData = await _dataDeleteServices.RemoveData(id);
+            if (!userData)
             {
                 NotFound();
             }
@@ -124,13 +125,13 @@ namespace UserDataManager.Controllers
         [HttpDelete("RemoveAdressData/{id}")]
         public async Task<ActionResult> RemoveAdressData(int id)
         {
-            var adressData = _dataDeleteServices.RemoveOtherData(id);
-            if (adressData == null)
+            var adressData = await _dataDeleteServices.RemoveOtherData(id);
+            if (!adressData)
             {
                 NotFound();
             }
 
-            return Ok();
+            return NoContent();
         }
         [HttpDelete("ClearAllUserData")]
         public async Task<ActionResult> ClearAllUserData()
