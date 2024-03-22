@@ -39,7 +39,7 @@
     "Parameters": [
       {
         "Name": "adressDataInsertDTO",
-        "Type": "UserDataManager.EntityFramework.Models.UserData\u002BAddress",
+        "Type": "UserDataManager.EntityFramework.DTO.AddressDataInsertDTO",
         "IsRequired": true
       }
     ],
@@ -55,7 +55,7 @@
     "Parameters": [
       {
         "Name": "userData",
-        "Type": "UserDataManager.EntityFramework.Models.UserData\u002BUserDataResponse",
+        "Type": "UserDataManager.EntityFramework.DTO.UserDataInsertDTO",
         "IsRequired": true
       }
     ],
@@ -149,7 +149,7 @@
     "Parameters": [
       {
         "Name": "userData",
-        "Type": "UserDataManager.EntityFramework.Models.UserData\u002BUserDataResponse",
+        "Type": "UserDataManager.EntityFramework.DTO.UserDataUpdateDTO",
         "IsRequired": true
       }
     ],

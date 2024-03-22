@@ -49,11 +49,13 @@ namespace UserDataManager.Repository.Class
         await _userDataContext.UserDataResponse.ToListAsync();
 
         public async Task<UserData.UserDataResponse> ReadUserData
-        (int id) => await _userDataContext.UserDataResponse.FirstOrDefaultAsync(u => u.Id == id);
+        (int id) => await _userDataContext.UserDataResponse.AsNoTracking()
+            .Include(u => u.Address)
+            .FirstOrDefaultAsync(u => u.Id == id);
 
         public async Task<UserData.Address> ReadAddressData
         (int id) => await _userDataContext.Address.FirstOrDefaultAsync(u => u.IdAdress == id);
-        public UserData.UserDataResponse ReadUserDataInUserData(int id) =>
+        public UserData.UserDataResponse ReadAdressDataInUserData(int id) =>
         _userDataContext.UserDataResponse.FirstOrDefault(x => x.IdAdress == id);
         #endregion
 
@@ -61,12 +63,17 @@ namespace UserDataManager.Repository.Class
         public async Task<UserData.UserDataResponse> UpdateUserData(UserData.UserDataResponse userData)
         {
             var userDataResult = await ReadUserData(userData.Id);
-
-            _userDataContext.UserDataResponse.Attach(userDataResult);
-            _userDataContext.UserDataResponse.Entry(userDataResult).State = EntityState.Modified;
+            
+            if (userDataResult == null)
+            {
+                throw new Exception("user data not exist");
+            }
+            
+            _userDataContext.UserDataResponse.Attach(userData);
+            _userDataContext.Entry(userData).State = EntityState.Modified;
             await SaveChange();
 
-            return userDataResult;
+            return await ReadUserData(userData.Id);
         }
         #endregion
 

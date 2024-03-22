@@ -11,14 +11,7 @@ namespace UserDataManager.EntityFramework.Models
         public string Name { get; set; }
         public string Email { get; set; }
         public string Website { get; set; }
-        /*
-     Update
-    {
-        "Id":"40",
-        "Name":"Ariel",
-        "Email":"Ariel625@gmail.com",
-        "WebSite":"www.Ariel.com"
-    }
-     */
+        public int IdAdress { get; set; }
+        public UserData.Address? Address { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using UserDataManager.EntityFramework.Context;
+﻿using AutoMapper;
+using UserDataManager.EntityFramework.Context;
 using UserDataManager.EntityFramework.DTO;
 using UserDataManager.EntityFramework.Models;
 using UserDataManager.Repository.Class;
@@ -7,52 +8,36 @@ using UserDataManager.Services.Interface;
 
 namespace UserDataManager.Services
 {
-    public class UserDataInsertServices : IDataInsertServices<UserData.UserDataResponse, UserDataInsertDTO, UserData.Address, AddressDataInsertDTO>
+    public class UserDataInsertServices : IDataInsertServices<UserDataDTO, UserDataInsertDTO, AddressDTO, AddressDataInsertDTO>
     {
         private IRepository<UserData.UserDataResponse, UserData.Address> _userDataRepository;
+        private IMapper _mapper;
 
-        public UserDataInsertServices(IRepository<UserData.UserDataResponse, UserData.Address> userDataRepository)
+        public UserDataInsertServices(IRepository<UserData.UserDataResponse, UserData.Address> userDataRepository, IMapper mapper)
         {
             _userDataRepository = userDataRepository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<UserDataInsertDTO>> AsignDataClient(IEnumerable<UserData.UserDataResponse> userDataResponse) 
+        public async Task<IEnumerable<UserDataDTO>> AsignDataClient(IEnumerable<UserDataInsertDTO> userDataInsert)
         {
+            var userDataResponse = _mapper.Map<IEnumerable<UserData.UserDataResponse>>(userDataInsert);
             var userData = await _userDataRepository.SetDataList(userDataResponse);
-            return SetInsertDataDTO(userData);
+            return _mapper.Map<IEnumerable<UserDataDTO>>(userData);
         }
 
-        public async Task<IEnumerable<UserDataInsertDTO>> AddUserData(UserData.UserDataResponse userData)
+        public async Task<IEnumerable<UserDataDTO>> AddUserData(UserDataInsertDTO userDataInsert)
         {
-            var userDataResult = await _userDataRepository.SetUserData(userData);
-            return SetInsertDataDTO(userDataResult);
+            var userDataResponse = _mapper.Map<UserData.UserDataResponse>(userDataInsert);
+            var userDataResult = await _userDataRepository.SetUserData(userDataResponse);
+            return _mapper.Map<IEnumerable<UserDataDTO>>(userDataResult);
         }
 
-        private IEnumerable<UserDataInsertDTO> SetInsertDataDTO(IEnumerable<UserData.UserDataResponse> userDataResult)
+        public async Task<IEnumerable<AddressDTO>> SetAdressData(AddressDataInsertDTO adressDataInsert)
         {
-            return userDataResult.Select(u => new UserDataInsertDTO
-            {
-                Id = u.Id,
-                Name = u.Name,
-                Email = u.Email,
-                Website = u.Website
-            });
-        }
-
-        public async Task<IEnumerable<AddressDataInsertDTO>> SetAdressData(UserData.Address adressData)
-        {
-            var adressResult = await _userDataRepository.AddAdressData(adressData);
-
-            var insertedAddress = adressResult.Select(u => new AddressDataInsertDTO
-            {
-                IdAdress = u.IdAdress,
-                Street = u.Street,
-                Suite = u.Suite,
-                City = u.City,
-                Zipcode = u.Zipcode
-            });
-
-            return insertedAddress;
+            var adress = _mapper.Map<UserData.Address>(adressDataInsert);
+            var adressResult = await _userDataRepository.AddAdressData(adress);
+            return _mapper.Map<IEnumerable<AddressDTO>>(adressResult);
         }
     }
 }

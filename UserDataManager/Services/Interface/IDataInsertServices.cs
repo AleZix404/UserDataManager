@@ -4,10 +4,10 @@ using UserDataManager.EntityFramework.Models;
 
 namespace UserDataManager.Services.Interface
 {
-    public interface IDataInsertServices<TEntity, UDTO, VEntity, KDTO>
+    public interface IDataInsertServices<TGralDTO, TInserDTO, VGralDTO, VInsertDTO>
     {
-        public Task<IEnumerable<UDTO>> AsignDataClient(IEnumerable<TEntity> userDataResponse);
-        public Task<IEnumerable<UDTO>> AddUserData(TEntity dataInsertDTO);
-        public Task<IEnumerable<KDTO>> SetAdressData(VEntity otherDataInsertDTO);
+        public Task<IEnumerable<TGralDTO>> AsignDataClient(IEnumerable<TInserDTO> userDataResponse);
+        public Task<IEnumerable<TGralDTO>> AddUserData(TInserDTO dataInsertDTO);
+        public Task<IEnumerable<VGralDTO>> SetAdressData(VInsertDTO otherDataInsertDTO);
     }
 }

@@ -1,32 +1,35 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using UserDataManager.EntityFramework.Context;
+using UserDataManager.EntityFramework.DTO;
 using UserDataManager.EntityFramework.Models;
 using UserDataManager.Repository.Interface;
 using UserDataManager.Services.Interface;
 
 namespace UserDataManager.Services
 {
-    public class UserDataUpdateServices : IDataUpdateServices<UserData.UserDataResponse, UserDataDTO>
+    public class UserDataUpdateServices : IDataUpdateServices<UserDataUpdateDTO, UserDataDTO>
     {
         IRepository<UserData.UserDataResponse, UserData.Address> _userDataRepository;
+        IMapper _mapper;
 
-        public UserDataUpdateServices(IRepository<UserData.UserDataResponse, UserData.Address> userDataRepository)
+        public UserDataUpdateServices(IRepository<UserData.UserDataResponse, UserData.Address> userDataRepository, IMapper mapper)
         {
             _userDataRepository = userDataRepository;
+            _mapper = mapper;
         }
 
-        public async Task<UserDataDTO> UpdateUserData(UserData.UserDataResponse userData)
+        public async Task<UserDataDTO> UpdateUserData(UserDataUpdateDTO userDataUpdateDTO)
         {
-            var userDataResult = await _userDataRepository.UpdateUserData(userData);
+            var userDataResponse = _mapper.Map<UserData.UserDataResponse>(userDataUpdateDTO);
+            var userDataResult = await _userDataRepository.UpdateUserData(userDataResponse);
 
-            var userDataDTO = new UserDataDTO 
+            if (userDataResult == null) 
             {
-                Id = userDataResult.Id,
-                Name = userDataResult.Name,
-                Email = userDataResult.Email,
-                Website = userDataResult.Website
-            };
+                throw new Exception("User Data not exists");
+            }
+            var userDataDTO = _mapper.Map<UserDataDTO>(userDataResult);
 
             return userDataDTO;
         }
