@@ -159,3 +159,13 @@ C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\obj\Debug\net8.0
 C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\obj\Debug\net8.0\UserDataManager.sourcelink.json
 C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\bin\Debug\net8.0\AutoMapper.dll
 C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\bin\Debug\net8.0\Oracle.EntityFrameworkCore.dll
+C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\bin\Debug\net8.0\Oracle.ManagedDataAccess.dll
+C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\bin\Debug\net8.0\System.Diagnostics.PerformanceCounter.dll
+C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\bin\Debug\net8.0\System.DirectoryServices.dll
+C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\bin\Debug\net8.0\System.DirectoryServices.Protocols.dll
+C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Diagnostics.PerformanceCounter.dll
+C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.DirectoryServices.dll
+C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\bin\Debug\net8.0\runtimes\linux\lib\net6.0\System.DirectoryServices.Protocols.dll
+C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\bin\Debug\net8.0\runtimes\osx\lib\net6.0\System.DirectoryServices.Protocols.dll
+C:\Users\AleZix404\source\repos\UserDataManager\UserDataManager\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.DirectoryServices.Protocols.dll

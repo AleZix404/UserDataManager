@@ -10,10 +10,10 @@ namespace UserDataManager.Services
 {
     public class UserDataReadServices: IReadDataServices<UserDataDTO>
     {
-        private IRepository<UserData.UserDataResponse, UserData.Address> _userDataRepository;
+        private IRepository<UserData.UserDResp, UserData.Address> _userDataRepository;
         private IMapper _mapper;
 
-        public UserDataReadServices(IRepository<UserData.UserDataResponse, UserData.Address> userDataRepository, IMapper mapper)
+        public UserDataReadServices(IRepository<UserData.UserDResp, UserData.Address> userDataRepository, IMapper mapper)
         {
             _userDataRepository = userDataRepository;
             _mapper = mapper;
@@ -21,7 +21,7 @@ namespace UserDataManager.Services
 
         public async Task<IEnumerable<UserDataDTO>> ReadAllData()
         {
-            var userDataResult = await _userDataRepository.ReadAllUserDataList();
+            var userDataResult = await _userDataRepository.ReadAllUserData();
             var userDataDTO = _mapper.Map<IEnumerable<UserDataDTO>>(userDataResult);
 
             return userDataDTO;

@@ -11,10 +11,10 @@ namespace UserDataManager.Services
 {
     public class UserDataUpdateServices : IDataUpdateServices<UserDataUpdateDTO, UserDataDTO>
     {
-        IRepository<UserData.UserDataResponse, UserData.Address> _userDataRepository;
+        IRepository<UserData.UserDResp, UserData.Address> _userDataRepository;
         IMapper _mapper;
 
-        public UserDataUpdateServices(IRepository<UserData.UserDataResponse, UserData.Address> userDataRepository, IMapper mapper)
+        public UserDataUpdateServices(IRepository<UserData.UserDResp, UserData.Address> userDataRepository, IMapper mapper)
         {
             _userDataRepository = userDataRepository;
             _mapper = mapper;
@@ -22,7 +22,7 @@ namespace UserDataManager.Services
 
         public async Task<UserDataDTO> UpdateData(UserDataUpdateDTO userDataUpdateDTO)
         {
-            var userDataResponse = _mapper.Map<UserData.UserDataResponse>(userDataUpdateDTO);
+            var userDataResponse = _mapper.Map<UserData.UserDResp>(userDataUpdateDTO);
             var userDataResult = await _userDataRepository.UpdateUserData(userDataResponse);
 
             if (userDataResult == null) 

@@ -18,13 +18,13 @@ namespace UserDataManager.EntityFramework.Models
                 public string Zipcode { get; set; }
             }
 
-            public class UserDataResponse
+            public class UserDResp
             {
                 [Key]
                 [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
                 public int Id { get; set; }
-                public string Name { get; set; }
-                public string? Username { get; set; }
+                public string? Name { get; set; }
+                public string Username { get; set; }
                 public string Email { get; set; }
             
                 public int? IdAdress { get; set; }

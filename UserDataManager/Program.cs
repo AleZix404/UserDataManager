@@ -22,6 +22,7 @@ namespace UserDataManager
             builder.Services.AddDbContext<UserDataContext>(options => 
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("UserDataConnection"));
+                //options.UseOracle(builder.Configuration.GetConnectionString("UserDataConnection"));
             });
             builder.Services.AddScoped<IUserDataClientServices, UserDataClientServices>();
             builder.Services.AddHttpClient<IUserDataClientServices, UserDataClientServices>(
@@ -32,7 +33,7 @@ namespace UserDataManager
             builder.Services.AddScoped<IReadDataServices<UserDataDTO>, UserDataReadServices>();
             builder.Services.AddScoped<IDataUpdateServices<UserDataUpdateDTO, UserDataDTO>, UserDataUpdateServices>();
             builder.Services.AddScoped<IDataDeleteServices, UserDataDeleteServices>();
-            builder.Services.AddScoped<IRepository<UserData.UserDataResponse, UserData.Address>, UserDataRepository>();
+            builder.Services.AddScoped<IRepository<UserData.UserDResp, UserData.Address>, UserDataRepository>();
 
             builder.Services.AddAutoMapper(typeof(MapperProfile));
 

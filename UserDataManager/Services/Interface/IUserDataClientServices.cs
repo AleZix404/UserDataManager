@@ -5,6 +5,6 @@ namespace UserDataManager.Services.Interface
 {
     public interface IUserDataClientServices
     {
-        public Task<IEnumerable<UserDataInsertDTO>> SetUserDataClient();
+        public Task<IEnumerable<UserDataInsertDTO>> DownloadUserData();
     }
 }

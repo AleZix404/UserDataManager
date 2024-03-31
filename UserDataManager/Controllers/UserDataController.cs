@@ -30,9 +30,9 @@ namespace UserDataManager.Controllers
 
         #region Create
         [HttpPost("DownloadUserDataClient")]
-        public async Task<ActionResult<UserData.UserDataResponse>> SetUserDataClient()
+        public async Task<ActionResult<UserData.UserDResp>> SetUserDataClient()
         {
-            var userDataResponse = await _userDataClientServices.SetUserDataClient();
+            var userDataResponse = await _userDataClientServices.DownloadUserData();
             var userDataResult = await _dataInsertServices.AsignDataClient(userDataResponse);
 
             if (userDataResult == null)

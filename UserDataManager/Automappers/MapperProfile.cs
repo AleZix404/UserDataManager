@@ -8,16 +8,16 @@ namespace UserDataManager.Automappers
     {
         public MapperProfile()
         {
-            CreateMap<UserData.UserDataResponse, UserDataDTO>();
-            CreateMap<UserDataInsertDTO, UserData.UserDataResponse>();//repo
+            CreateMap<UserData.UserDResp, UserDataDTO>();
+            CreateMap<UserDataInsertDTO, UserData.UserDResp>();
 
             CreateMap<UserDataInsertDTO, UserDataDTO>();
             CreateMap<AddressDataInsertDTO, UserData.Address>();
             CreateMap<UserData.Address, AddressDTO>();
 
-            CreateMap<UserDataUpdateDTO, UserData.UserDataResponse>();
+            CreateMap<UserDataUpdateDTO, UserData.UserDResp>();
             
-            CreateMap<UserDataDTO, UserData.UserDataResponse>();
+            CreateMap<UserDataDTO, UserData.UserDResp>();
         }
     }
 }
