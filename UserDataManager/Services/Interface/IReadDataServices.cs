@@ -2,7 +2,7 @@
 {
     public interface IReadDataServices<U>
     {
-        public Task<IEnumerable<U>> ReadAllUserDataList();
-        public Task<U> ReadUserData(int id);
+        public Task<IEnumerable<U>> ReadAllData();
+        public Task<U> ReadData(int id);
     }
 }

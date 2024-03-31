@@ -9,7 +9,7 @@ namespace UserDataManager.Repository.Interface
         public Task<IEnumerable<TEntity>> SetUserData(TEntity userData);
         public Task<IEnumerable<UEntity>> AddAdressData(UEntity adressData);
 
-        public Task<IEnumerable<TEntity>> ReadAllUserDataList();
+        public Task<IEnumerable<TEntity>> ReadAllUserData();
         public Task<TEntity> ReadUserData(int id);
         public Task<UEntity> ReadAddressData(int id);
         public TEntity ReadAdressDataInUserData(int id);

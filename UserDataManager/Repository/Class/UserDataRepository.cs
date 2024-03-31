@@ -6,7 +6,7 @@ using UserDataManager.Repository.Interface;
 
 namespace UserDataManager.Repository.Class
 {
-    public class UserDataRepository : IRepository<UserData.UserDataResponse, UserData.Address>
+    public class UserDataRepository : IRepository<UserData.UserDResp, UserData.Address>
     {
         private UserDataContext _userDataContext;
 
@@ -16,24 +16,24 @@ namespace UserDataManager.Repository.Class
         }
 
         #region Create
-        public async Task<IEnumerable<UserData.UserDataResponse>> SetDataList(IEnumerable<UserData.UserDataResponse> userDataResponse)
+        public async Task<IEnumerable<UserData.UserDResp>> SetDataList(IEnumerable<UserData.UserDResp> userDataResponse)
         {
             foreach (var userData in userDataResponse)
             {
                 userData.Id = 0;
-                await _userDataContext.UserDataResponse.AddAsync(userData);
+                await _userDataContext.UserDResp.AddAsync(userData);
                 await _userDataContext.Address.AddAsync(userData.Address);
             }
             await _userDataContext.SaveChangesAsync();
 
             return userDataResponse;
         }
-        public async Task<IEnumerable<UserData.UserDataResponse>> SetUserData(UserData.UserDataResponse userData)
+        public async Task<IEnumerable<UserData.UserDResp>> SetUserData(UserData.UserDResp userData)
         {
-            await _userDataContext.UserDataResponse.AddAsync(userData);
+            await _userDataContext.UserDResp.AddAsync(userData);
             await _userDataContext.SaveChangesAsync();
 
-            return _userDataContext.UserDataResponse;
+            return await ReadAllUserData();
         }
         public async Task<IEnumerable<UserData.Address>> AddAdressData(UserData.Address adressData)
         {
@@ -45,22 +45,22 @@ namespace UserDataManager.Repository.Class
         #endregion
 
         #region Read
-        public async Task<IEnumerable<UserData.UserDataResponse>> ReadAllUserDataList() =>
-        await _userDataContext.UserDataResponse.ToListAsync();
+        public async Task<IEnumerable<UserData.UserDResp>> ReadAllUserData() =>
+        await _userDataContext.UserDResp.Include(u => u.Address).ToListAsync();
 
-        public async Task<UserData.UserDataResponse> ReadUserData
-        (int id) => await _userDataContext.UserDataResponse.AsNoTracking()
+        public async Task<UserData.UserDResp> ReadUserData
+        (int id) => await _userDataContext.UserDResp.AsNoTracking()
             .Include(u => u.Address)
             .FirstOrDefaultAsync(u => u.Id == id);
 
         public async Task<UserData.Address> ReadAddressData
         (int id) => await _userDataContext.Address.FirstOrDefaultAsync(u => u.IdAdress == id);
-        public UserData.UserDataResponse ReadAdressDataInUserData(int id) =>
-        _userDataContext.UserDataResponse.FirstOrDefault(x => x.IdAdress == id);
+        public UserData.UserDResp ReadAdressDataInUserData(int id) =>
+        _userDataContext.UserDResp.FirstOrDefault(x => x.IdAdress == id);
         #endregion
 
         #region Update
-        public async Task<UserData.UserDataResponse> UpdateUserData(UserData.UserDataResponse userData)
+        public async Task<UserData.UserDResp> UpdateUserData(UserData.UserDResp userData)
         {
             var userDataResult = await ReadUserData(userData.Id);
             
@@ -69,7 +69,7 @@ namespace UserDataManager.Repository.Class
                 throw new Exception("user data not exist");
             }
             
-            _userDataContext.UserDataResponse.Attach(userData);
+            _userDataContext.UserDResp.Attach(userData);
             _userDataContext.Entry(userData).State = EntityState.Modified;
             await SaveChange();
 
@@ -80,8 +80,8 @@ namespace UserDataManager.Repository.Class
         #region Delete
         public async Task RemoveData(int id)
         {
-            var userDataResult = _userDataContext.UserDataResponse.FirstOrDefault(u => u.Id == id);
-            _userDataContext.UserDataResponse.Remove(userDataResult);
+            var userDataResult = _userDataContext.UserDResp.FirstOrDefault(u => u.Id == id);
+            _userDataContext.UserDResp.Remove(userDataResult);
             await SaveChange();
         }
         public async Task RemoveOtherData(int id)
@@ -92,7 +92,7 @@ namespace UserDataManager.Repository.Class
         }
         public void RemovedAllUserData()
         {
-            _userDataContext.UserDataResponse.RemoveRange(_userDataContext.UserDataResponse);
+            _userDataContext.UserDResp.RemoveRange(_userDataContext.UserDResp);
         }
         public void RemovedAllAddressData()
         {
@@ -103,7 +103,7 @@ namespace UserDataManager.Repository.Class
         #region Utils
         public bool IsExistUserData()
         {
-            return _userDataContext.UserDataResponse.Any();
+            return _userDataContext.UserDResp.Any();
         }
         public bool IsExistAddressData()
         {

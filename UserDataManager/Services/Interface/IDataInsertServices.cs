@@ -6,7 +6,7 @@ namespace UserDataManager.Services.Interface
 {
     public interface IDataInsertServices<TGralDTO, TInserDTO, VGralDTO, VInsertDTO>
     {
-        public Task<IEnumerable<TGralDTO>> AsignDataClient(IEnumerable<TInserDTO> userDataResponse);
+        public Task<IEnumerable<TGralDTO>> AsignDataClient(IEnumerable<TInserDTO> dataInsertDTO);
         public Task<IEnumerable<TGralDTO>> AddUserData(TInserDTO dataInsertDTO);
         public Task<IEnumerable<VGralDTO>> SetAdressData(VInsertDTO otherDataInsertDTO);
     }

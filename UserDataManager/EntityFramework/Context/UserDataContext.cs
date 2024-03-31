@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using UserDataManager.EntityFramework.Models;
+using static UserDataManager.EntityFramework.Models.UserData;
 
 namespace UserDataManager.EntityFramework.Context
 {
@@ -11,7 +12,7 @@ namespace UserDataManager.EntityFramework.Context
         
         }
 
-        public DbSet<UserData.UserDataResponse> UserDataResponse { get; set; }
+        public DbSet<UserData.UserDResp> UserDResp { get; set; }
         public DbSet<UserData.Address> Address { get; set; }
     }
 }

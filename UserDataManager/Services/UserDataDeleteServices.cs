@@ -8,9 +8,9 @@ namespace UserDataManager.Services
 {
     public class UserDataDeleteServices: IDataDeleteServices
     {
-        private IRepository<UserData.UserDataResponse, UserData.Address> _userDataRepository;
+        private IRepository<UserData.UserDResp, UserData.Address> _userDataRepository;
 
-        public UserDataDeleteServices(IRepository<UserData.UserDataResponse, UserData.Address> userDataRepository)
+        public UserDataDeleteServices(IRepository<UserData.UserDResp, UserData.Address> userDataRepository)
         {
             _userDataRepository = userDataRepository;
         }
