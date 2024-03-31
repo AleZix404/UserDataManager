@@ -10,16 +10,14 @@ namespace UserDataManager.Services
 {
     public class UserDataClientServices: IUserDataClientServices
     {
-        private HttpClient _httpClient;
-        private IMapper _mapper; 
+        private readonly HttpClient _httpClient;
 
-        public UserDataClientServices(HttpClient httpClient, IMapper mapper)
+        public UserDataClientServices(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<UserDataInsertDTO>> SetUserDataClient()
+        public async Task<IEnumerable<UserDataInsertDTO>> DownloadUserData()
         {
             var result = await _httpClient.GetAsync(_httpClient.BaseAddress);
             var body = await result.Content.ReadAsStringAsync();

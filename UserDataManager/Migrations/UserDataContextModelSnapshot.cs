@@ -50,7 +50,7 @@ namespace UserDataManager.Migrations
                     b.ToTable("Address");
                 });
 
-            modelBuilder.Entity("UserDataManager.EntityFramework.Models.UserData+UserDataResponse", b =>
+            modelBuilder.Entity("UserDataManager.EntityFramework.Models.UserData+UserDResp", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -66,7 +66,6 @@ namespace UserDataManager.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
@@ -88,7 +87,7 @@ namespace UserDataManager.Migrations
                     b.ToTable("UserDataResponse");
                 });
 
-            modelBuilder.Entity("UserDataManager.EntityFramework.Models.UserData+UserDataResponse", b =>
+            modelBuilder.Entity("UserDataManager.EntityFramework.Models.UserData+UserDResp", b =>
                 {
                     b.HasOne("UserDataManager.EntityFramework.Models.UserData+Address", "Address")
                         .WithMany()

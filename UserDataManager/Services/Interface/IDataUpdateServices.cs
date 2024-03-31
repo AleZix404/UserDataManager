@@ -4,6 +4,6 @@ namespace UserDataManager.Services.Interface
 {
     public interface IDataUpdateServices<T, U>
     {
-        public Task<U> UpdateUserData(T dataUpdate);
+        public Task<U> UpdateData(T dataUpdate);
     }
 }

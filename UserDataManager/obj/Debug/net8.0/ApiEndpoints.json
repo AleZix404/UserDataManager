@@ -19,7 +19,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "UserDataManager.EntityFramework.Models.UserData\u002BUserDataResponse",
+        "Type": "UserDataManager.EntityFramework.Models.UserData\u002BUserDResp",
         "MediaTypes": [
           "text/plain",
           "application/json",
